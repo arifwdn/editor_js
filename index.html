@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nyobain Editor.js</title>
+  </head>
+  <body>
+    <h1 style="text-align: center" contenteditable="true">Ini Judul</h1>
+    <div id="editor"></div>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script>
+    <script type="application/javascript">
+      const editor = document.getElementById("editor");
+      const plugin = new EditorJS({
+        holder: "editor",
+        tools: {
+          header: Header,
+        },
+      });
+    </script>
+  </body>
+</html>
