@@ -4,19 +4,106 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Nyobain Editor.js</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      #submit {
+        padding: 5px;
+        color: white;
+        font-weight: bold;
+        border: none;
+        background-color: rgb(0, 179, 0);
+        border-bottom: solid 2px rgb(150, 255, 136);
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      #submit:active {
+        border-bottom: none;
+      }
+      #judul {
+        outline: none;
+        text-align: center;
+      }
+      #judul:focus {
+        border: solid 2px rgb(207, 207, 207);
+      }
+    </style>
   </head>
   <body>
-    <h1 style="text-align: center" contenteditable="true">Ini Judul</h1>
-    <div id="editor"></div>
+    <div
+      style="
+        background-color: white;
+        padding: 10px;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        left: 0;
+        z-index: 99;
+        border: solid 1px gray;
+      "
+    >
+      <button id="submit">Save</button>
+    </div>
+    <div style="margin-top: 50px">
+      <h1 id="judul" contenteditable="true">Ini Judul</h1>
+      <div id="editor"></div>
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
     <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/raw"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/simple-image@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/checklist@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/list@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/embed@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/quote@latest"></script>
     <script type="application/javascript">
-      const editor = document.getElementById("editor");
-      const plugin = new EditorJS({
-        holder: "editor",
-        tools: {
-          header: Header,
-        },
+      $(document).ready(() => {
+        const editor = new EditorJS({
+          //Id contenteditable
+          holder: "editor",
+          // Tools tambahan
+          tools: {
+            header: Header,
+            raw: RawTool,
+            image: SimpleImage,
+            checklist: {
+              class: Checklist,
+              inlineToolbar: true,
+            },
+            list: {
+              class: List,
+              inlineToolbar: true,
+              config: {
+                defaultStyle: "unordered",
+              },
+            },
+            embed: {
+              class: Embed,
+              config: {
+                services: {
+                  youtube: true,
+                  coub: true,
+                },
+              },
+            },
+            kuota: Quote,
+          },
+        });
+        $("#submit").click((e) => {
+          e.preventDefault();
+          editor.save().then((data) => {
+            let judul = $("#judul").html();
+            console.log(judul);
+            console.log(data);
+          });
+        });
       });
     </script>
   </body>
